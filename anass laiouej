@@ -1,0 +1,41 @@
+include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_USERS 100
+#define MAX_CARS 100
+#define MAX_STRING_LENGTH 50
+#define FILENAME "cars.csv"
+
+typedef struct {
+    int id;
+    char brand[MAX_STRING_LENGTH];
+    char owner_name[MAX_STRING_LENGTH];
+    char model[MAX_STRING_LENGTH];
+    char fuel_type[MAX_STRING_LENGTH];
+    int seats;
+    char transmission[MAX_STRING_LENGTH];
+    float price_per_day;
+    char availability[MAX_STRING_LENGTH];
+} Car;
+
+typedef struct {
+    char name[MAX_STRING_LENGTH];
+} User;
+
+// Function prototypes
+void get_username(User *user) {
+    printf("Veuillez saisir votre nom : ");
+    fgets(user->name, MAX_STRING_LENGTH, stdin);
+    user->name[strcspn(user->name, "\n")] = '\0'; // Remove newline character
+}
+void clear_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+void load_cars_from_file(Car *cars, int *num_cars) {
+    FILE *file = fopen(FILENAME, "r");
+    if (file == NULL) {
+        printf("Impossible d'ouvrir le fichier de voitures.\n");
+        return;
